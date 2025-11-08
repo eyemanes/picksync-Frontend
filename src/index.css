@@ -1,0 +1,358 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #0a0e14;
+  color: #ffffff;
+  overflow-x: hidden;
+}
+
+/* Dark background like betonbits - slightly lighter than pure black */
+#root {
+  min-height: 100vh;
+  background: #0a0e14;
+}
+
+/* Glassmorphism - Dark theme with subtle borders */
+.glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-strong {
+  background: rgba(15, 20, 30, 0.8);
+  backdrop-filter: blur(30px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Neon green gradient (like their Live indicator) */
+.neon-green-gradient {
+  background: linear-gradient(135deg, #00ff88 0%, #00cc66 50%, #00aa55 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Gold gradient text */
+.gold-gradient {
+  background: linear-gradient(135deg, #FFD700 0%, #FFC700 50%, #FFBF00 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Neon green glow (for live bets) */
+.neon-green-glow {
+  box-shadow: 0 0 20px rgba(0, 255, 136, 0.4),
+              0 0 40px rgba(0, 255, 136, 0.2);
+}
+
+/* Gold glow */
+.gold-glow {
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.3),
+              0 0 40px rgba(255, 215, 0, 0.15);
+}
+
+/* Purple/violet glow (for premium features) */
+.purple-glow {
+  box-shadow: 0 0 20px rgba(147, 51, 234, 0.4),
+              0 0 40px rgba(147, 51, 234, 0.2);
+}
+
+/* Shimmer effect */
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(0, 255, 136, 0.15) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s linear infinite;
+}
+
+/* Card hover effect - like betonbits game cards */
+.sport-card {
+  background: linear-gradient(135deg, rgba(15, 20, 30, 0.95), rgba(20, 25, 35, 0.95));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.3s ease;
+}
+
+.sport-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(0, 255, 136, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 255, 136, 0.15);
+}
+
+/* Bet slip style button */
+.bet-button {
+  background: linear-gradient(135deg, #00ff88, #00cc66);
+  box-shadow: 0 4px 20px rgba(0, 255, 136, 0.3);
+  transition: all 0.3s ease;
+}
+
+.bet-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 30px rgba(0, 255, 136, 0.5);
+}
+
+/* Odds button style */
+.odds-button {
+  background: rgba(0, 255, 136, 0.15);
+  border: 1px solid rgba(0, 255, 136, 0.3);
+  color: #00ff88;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.odds-button:hover {
+  background: rgba(0, 255, 136, 0.25);
+  transform: scale(1.05);
+}
+
+/* Scrollbar - sleek dark style */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #00ff88, #00cc66);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #00cc66, #00aa55);
+}
+
+/* Live indicator pulse */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+  }
+}
+
+.live-pulse {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Status badges */
+.status-live {
+  background: #ff3333;
+  color: white;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-upcoming {
+  background: rgba(0, 255, 136, 0.15);
+  color: #00ff88;
+  border: 1px solid rgba(0, 255, 136, 0.3);
+}
+
+.status-finished {
+  background: rgba(100, 100, 100, 0.2);
+  color: #888;
+  border: 1px solid rgba(100, 100, 100, 0.3);
+}
+
+/* LIGHT MODE - MINIMAL GREY/WHITE (APPLE STYLE) */
+.light-mode {
+  background: #ffffff;
+  color: #1f2937;
+}
+
+.light-mode body {
+  background: #ffffff;
+  color: #1f2937;
+}
+
+.light-mode #root {
+  background: #ffffff;
+}
+
+.light-mode .glass {
+  background: rgba(249, 250, 251, 0.8);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(229, 231, 235, 0.6);
+}
+
+.light-mode .glass-strong {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(30px);
+  border: 1px solid rgba(229, 231, 235, 0.8);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+.light-mode h1,
+.light-mode h2,
+.light-mode h3 {
+  color: #111827;
+}
+
+.light-mode p {
+  color: #6b7280;
+}
+
+.light-mode .text-white {
+  color: #111827 !important;
+}
+
+.light-mode .text-gray-300 {
+  color: #4b5563 !important;
+}
+
+.light-mode .text-gray-400 {
+  color: #6b7280 !important;
+}
+
+.light-mode .text-gray-500 {
+  color: #9ca3af !important;
+}
+
+.light-mode .text-gray-600 {
+  color: #4b5563 !important;
+}
+
+.light-mode .text-gray-700 {
+  color: #374151 !important;
+}
+
+.light-mode .text-gray-800 {
+  color: #1f2937 !important;
+}
+
+.light-mode .bg-gray-800 {
+  background: #f3f4f6 !important;
+}
+
+.light-mode .bg-gray-900 {
+  background: #ffffff !important;
+}
+
+.light-mode .border-gray-700 {
+  border-color: #e5e7eb !important;
+}
+
+.light-mode .border-gray-800 {
+  border-color: #d1d5db !important;
+}
+
+/* Green accents stay green */
+.light-mode .text-gold-400 {
+  color: #10b981 !important;
+}
+
+.light-mode .text-gold-500 {
+  color: #059669 !important;
+}
+
+/* Navbar - Clean white */
+.light-mode nav {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border-bottom: 1px solid #e5e7eb !important;
+}
+
+.light-mode nav button,
+.light-mode nav a {
+  color: #1f2937 !important;
+}
+
+.light-mode nav button:hover,
+.light-mode nav a:hover {
+  background: #f3f4f6 !important;
+}
+
+.light-mode nav .neon-green-gradient {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.light-mode nav .bg-neon-gradient {
+  background: linear-gradient(135deg, #10b981, #059669) !important;
+}
+
+/* Yellow badges -> Green */
+.light-mode .bg-gold-gradient {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+}
+
+.light-mode .text-black {
+  color: white !important;
+}
+
+.light-mode .gold-gradient {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Progress bar -> Grey */
+.light-mode .bg-gold-gradient.h-full {
+  background: linear-gradient(135deg, #d1d5db 0%, #9ca3af 100%) !important;
+}
+
+/* Navbar override - FORCE IT */
+.light-mode nav {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border-bottom: 1px solid #e5e7eb !important;
+  backdrop-filter: blur(20px) !important;
+}
+
+.light-mode .bg-dark-bg\/90 {
+  background: rgba(255, 255, 255, 0.95) !important;
+}
+
+.light-mode .border-white\/10 {
+  border-color: #e5e7eb !important;
+}
+
+.light-mode nav .border-white\/10 {
+  border-color: #e5e7eb !important;
+}
+
+/* Active nav button */
+.light-mode .bg-neon-gradient {
+  background: linear-gradient(135deg, #10b981, #059669) !important;
+}
+
+/* Buttons and badges */
+.light-mode .bg-green-500 {
+  background: #10b981 !important;
+}
+
+.light-mode .bg-green-600 {
+  background: #059669 !important;
+}
+
+.light-mode .text-green-400 {
+  color: #10b981 !important;
+}
+
+.light-mode .border-green-500 {
+  border-color: #10b981 !important;
+}

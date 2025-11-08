@@ -1,0 +1,45 @@
+# 🚀 VERCEL DEPLOYMENT GUIDE - PICKSYNC
+
+## 📋 Overview
+
+This guide covers deploying both:
+1. **Frontend** (React/Vite) → Vercel
+2. **Backend** (Express.js API) → Vercel Serverless Functions
+
+---
+
+## ⚠️ Important Considerations
+
+### SQLite Database Issue
+**PROBLEM:** Vercel serverless functions have **read-only** file systems. SQLite needs to write to a file.
+
+**SOLUTIONS:**
+1. **Use Vercel Postgres** (recommended for production)
+2. **Use external database** (Supabase, PlanetScale, Railway)
+3. **Use Turso** (SQLite-compatible edge database)
+
+We'll cover all three options below.
+
+---
+
+## 🎯 PART 1: FRONTEND DEPLOYMENT
+
+### Step 1: Prepare Frontend for Vercel
+
+#### 1.1 Create `vercel.json` in Frontend
+
+<function_calls>
+<invoke name="filesystem:write_file">
+<parameter name="content">{
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "framework": "vite",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
