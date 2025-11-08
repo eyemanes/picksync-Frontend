@@ -88,80 +88,104 @@ export default function Dashboard() {
     setScanProgress('Starting scan...');
     
     try {
-      const startRes = await fetch(`${API_URL}/api/scan`, {
+      // STEP 1: Prepare scan (fetch Reddit only)
+      console.log('🔄 Step 1: Preparing scan (fetching Reddit)...');
+      setScanProgress('Fetching Reddit comments...');
+      setProgressPercent(10);
+      
+      const prepareRes = await fetch(`${API_URL}/api/scan/prepare`, {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` },
       });
       
-      const startData = await startRes.json();
+      const prepareData = await prepareRes.json();
       
-      if (!startData.success) {
-        setError(startData.error);
+      if (!prepareData.success) {
+        setError(prepareData.error || 'Failed to prepare scan');
         setRefreshing(false);
+        setScanProgress('');
         return;
       }
       
-      const pollInterval = setInterval(async () => {
-        try {
-          const statusRes = await fetch(`${API_URL}/api/scan/status`);
-          const status = await statusRes.json();
-          
-          setScanProgress(status.message || '');
-          setProgressPercent(status.progress || 0);
-          
-          if (status.step === 'init') setCurrentStep(1);
-          if (status.step === 'reddit') setCurrentStep(1);
-          if (status.step === 'Gamblina') setCurrentStep(2);
-          if (status.step === 'saving') setCurrentStep(3);
-          
-          if (status.step === 'complete' || (!status.inProgress && status.progress === 100)) {
-            clearInterval(pollInterval);
-            
-            setTimeout(async () => {
-              try {
-                const res = await fetch(`${API_URL}/api/picks/today?t=${Date.now()}`);
-                const data = await res.json();
-                
-                if (data.success && data.picks && data.picks.length > 0) {
-                  setPicks(data.picks);
-                  setPotdTitle(data.potdTitle || '');
-                  setRefreshing(false);
-                  setScanProgress('');
-                  setProgressPercent(0);
-                }
-              } catch (fetchError) {
-                console.error('❌ Error fetching picks:', fetchError);
-                setError('Scan complete but failed to load picks.');
-                setRefreshing(false);
-              }
-            }, 500);
-          }
-          
-          if (status.step === 'error') {
-            clearInterval(pollInterval);
-            setError(status.error || 'Scan failed');
-            setRefreshing(false);
-            setScanProgress('');
-          }
-        } catch (pollError) {
-          console.error('❌ Poll error:', pollError);
-        }
-      }, 2000);
+      console.log(`✅ Step 1 complete: ${prepareData.totalComments} comments found`);
+      console.log(`📦 Processing ${prepareData.numBatches} batches of ${prepareData.batchSize} comments each`);
       
-      setTimeout(() => {
-        clearInterval(pollInterval);
-        if (refreshing) {
-          setError('Scan timeout. Please try again.');
+      setCurrentStep(2);
+      setScanProgress(`Found ${prepareData.totalComments} comments. Processing batches...`);
+      setProgressPercent(20);
+      
+      const { scanId, numBatches } = prepareData;
+      
+      // STEP 2: Process each batch sequentially
+      for (let batchNum = 1; batchNum <= numBatches; batchNum++) {
+        console.log(`🔄 Processing batch ${batchNum}/${numBatches}...`);
+        
+        const batchProgress = 20 + ((batchNum - 1) / numBatches) * 70;
+        setScanProgress(`Processing batch ${batchNum}/${numBatches} with AI...`);
+        setProgressPercent(Math.round(batchProgress));
+        
+        const batchRes = await fetch(`${API_URL}/api/scan/process-batch`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ scanId, batchNum })
+        });
+        
+        const batchData = await batchRes.json();
+        
+        if (!batchData.success) {
+          setError(`Batch ${batchNum} failed: ${batchData.error}`);
           setRefreshing(false);
           setScanProgress('');
+          return;
         }
-      }, 60000);
+        
+        console.log(`✅ Batch ${batchNum}/${numBatches} complete: ${batchData.picksInBatch} picks saved`);
+        
+        // If last batch, finalize
+        if (batchData.isLastBatch) {
+          console.log('🎉 All batches processed! Fetching final picks...');
+          setCurrentStep(3);
+          setScanProgress('Finalizing and loading picks...');
+          setProgressPercent(95);
+        }
+      }
+      
+      // STEP 3: Fetch the completed picks
+      console.log('📥 Fetching completed picks...');
+      await new Promise(resolve => setTimeout(resolve, 1000)); // Small delay for DB to finalize
+      
+      const picksRes = await fetch(`${API_URL}/api/picks/today?t=${Date.now()}`);
+      const picksData = await picksRes.json();
+      
+      if (picksData.success && picksData.picks && picksData.picks.length > 0) {
+        setPicks(picksData.picks);
+        setPotdTitle(picksData.potdTitle || '');
+        setScanProgress('Scan complete!');
+        setProgressPercent(100);
+        
+        console.log(`✅ Scan complete: ${picksData.picks.length} picks loaded`);
+        
+        // Clear UI after 2 seconds
+        setTimeout(() => {
+          setRefreshing(false);
+          setScanProgress('');
+          setProgressPercent(0);
+        }, 2000);
+      } else {
+        setError('Scan completed but no picks found');
+        setRefreshing(false);
+        setScanProgress('');
+      }
       
     } catch (err) {
       console.error('❌ Scan error:', err);
       setError(`Scan failed: ${err.message}`);
       setRefreshing(false);
       setScanProgress('');
+      setProgressPercent(0);
     }
   }
 
