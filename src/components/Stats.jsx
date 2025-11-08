@@ -19,7 +19,7 @@ export default function Stats({ picks, allPicks }) {
   ];
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-4 sm:mb-6">
       {stats.map((stat, index) => {
         const Icon = stat.icon;
         return (
@@ -29,11 +29,11 @@ export default function Stats({ picks, allPicks }) {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: index * 0.05 }}
             whileHover={{ y: -2 }}
-            className="glass-strong rounded-xl p-5 text-center border border-white/5 hover:border-gold-500/30 transition-all"
+            className="glass-strong rounded-xl p-3 sm:p-5 text-center border border-white/5 hover:border-gold-500/30 transition-all"
           >
-            <Icon className={`w-6 h-6 ${stat.color} mx-auto mb-2`} />
-            <div className="text-3xl font-black text-white mb-1">{stat.value}</div>
-            <div className="text-xs text-gray-500 uppercase tracking-wider font-semibold">{stat.label}</div>
+            <Icon className={`w-5 h-5 sm:w-6 sm:h-6 ${stat.color} mx-auto mb-1 sm:mb-2`} />
+            <div className="text-2xl sm:text-3xl font-black text-white mb-0.5 sm:mb-1">{stat.value}</div>
+            <div className="text-[10px] sm:text-xs text-gray-500 uppercase tracking-wider font-semibold">{stat.label}</div>
           </motion.div>
         );
       })}

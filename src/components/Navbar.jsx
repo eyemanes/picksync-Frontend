@@ -21,21 +21,21 @@ export default function Navbar() {
 
   return (
     <nav className="border-b border-white/10 sticky top-0 z-50 backdrop-blur-xl bg-dark-bg/90">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
+        <div className="flex items-center justify-between h-14 sm:h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-lg bg-neon-gradient flex items-center justify-center neon-green-glow">
-              <Zap className="w-5 h-5 text-black" />
+          <Link to="/" className="flex items-center gap-2 sm:gap-3 group">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-neon-gradient flex items-center justify-center neon-green-glow">
+              <Zap className="w-4 h-4 sm:w-5 sm:h-5 text-black" />
             </div>
             <div>
-              <span className="text-xl font-black neon-green-gradient">PICKSYNC</span>
-              <div className="text-[10px] text-gray-500 font-semibold tracking-wider">GAMBLINA AI 💋</div>
+              <span className="text-lg sm:text-xl font-black neon-green-gradient">PICKSYNC</span>
+              <div className="text-[9px] sm:text-[10px] text-gray-500 font-semibold tracking-wider hidden sm:block">GAMBLINA AI 💋</div>
             </div>
           </Link>
 
           {/* Nav Links */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 sm:gap-2">
             {links.map((link) => {
               const Icon = link.icon;
               const isActive = location.pathname === link.path;
@@ -46,7 +46,7 @@ export default function Navbar() {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     className={`
-                      px-4 py-2 rounded-lg font-bold text-sm flex items-center gap-2
+                      px-2 sm:px-4 py-2 rounded-lg font-bold text-xs sm:text-sm flex items-center gap-1.5 sm:gap-2
                       transition-all
                       ${isActive
                         ? 'bg-neon-gradient text-black shadow-lg neon-green-glow'
@@ -55,15 +55,15 @@ export default function Navbar() {
                     `}
                   >
                     <Icon className="w-4 h-4" />
-                    <span className="hidden sm:inline">{link.label}</span>
+                    <span className="hidden md:inline">{link.label}</span>
                   </motion.div>
                 </Link>
               );
             })}
 
             {/* User + Logout */}
-            <div className="ml-4 flex items-center gap-3 pl-4 border-l border-white/10">
-              <div className="text-right hidden sm:block">
+            <div className="ml-2 sm:ml-4 flex items-center gap-2 sm:gap-3 pl-2 sm:pl-4 border-l border-white/10">
+              <div className="text-right hidden lg:block">
                 <div className="text-xs text-gray-500 uppercase tracking-wider">
                   {user?.role === 'admin' ? '👑 Admin' : '🎲 Gambler'}
                 </div>
@@ -75,7 +75,7 @@ export default function Navbar() {
                 onClick={logout}
                 className="p-2 rounded-lg glass-strong border border-white/10 hover:border-red-500/50 text-gray-400 hover:text-red-400 transition-all"
               >
-                <LogOut className="w-5 h-5" />
+                <LogOut className="w-4 h-4 sm:w-5 sm:h-5" />
               </motion.button>
             </div>
           </div>

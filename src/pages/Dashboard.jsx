@@ -202,11 +202,11 @@ export default function Dashboard() {
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          className="fixed top-4 left-4 z-50 px-4 py-2 rounded-full bg-purple-600/90 backdrop-blur-sm border border-purple-400/30 shadow-lg"
+          className="fixed top-3 left-3 sm:top-4 sm:left-4 z-50 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-purple-600/90 backdrop-blur-sm border border-purple-400/30 shadow-lg"
         >
-          <div className="flex items-center gap-2">
-            <span className="text-xl">👑</span>
-            <span className="text-white text-sm font-bold">ADMIN</span>
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <span className="text-base sm:text-xl">👑</span>
+            <span className="text-white text-xs sm:text-sm font-bold">ADMIN</span>
           </div>
         </motion.div>
       )}
@@ -216,12 +216,12 @@ export default function Dashboard() {
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setDarkMode(!darkMode)}
-        className="fixed top-4 right-4 z-50 p-3 rounded-full glass-strong"
+        className="fixed top-3 right-3 sm:top-4 sm:right-4 z-50 p-2.5 sm:p-3 rounded-full glass-strong"
       >
-        {darkMode ? <Sun className="w-5 h-5 text-gold-400" /> : <Moon className="w-5 h-5 text-gray-700" />}
+        {darkMode ? <Sun className="w-4 h-4 sm:w-5 sm:h-5 text-gold-400" /> : <Moon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-700" />}
       </motion.button>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="relative z-10 max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 py-4 sm:py-8">
         {(loading || refreshing) && (
           <>
             <ProcessSteps currentStep={currentStep} />
@@ -278,18 +278,18 @@ export default function Dashboard() {
               </motion.div>
             )}
 
-            <div className="flex items-center justify-between mb-6 flex-wrap gap-4">
+            <div className="flex items-center justify-between mb-4 sm:mb-6 flex-wrap gap-3 sm:gap-4">
               <div>
-                <h2 className="text-3xl font-bold text-white mb-1">Today's Picks</h2>
-                {potdTitle && <p className="text-sm text-gray-500">{potdTitle}</p>}
+                <h2 className="text-2xl sm:text-3xl font-bold text-white mb-1">Today's Picks</h2>
+                {potdTitle && <p className="text-xs sm:text-sm text-gray-500">{potdTitle}</p>}
               </div>
               
-              <div className="flex gap-3">
+              <div className="flex gap-2 sm:gap-3 w-full sm:w-auto">
                 {/* Sort Dropdown */}
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="px-4 py-2 rounded-xl glass-strong border border-gray-700 text-white cursor-pointer"
+                  className="flex-1 sm:flex-initial px-3 sm:px-4 py-2 text-sm rounded-xl glass-strong border border-gray-700 text-white cursor-pointer"
                 >
                   <option value="confidence">Sort by Confidence</option>
                   <option value="upvotes">Sort by Upvotes</option>
@@ -302,19 +302,20 @@ export default function Dashboard() {
                     whileTap={{ scale: 0.95 }}
                     onClick={handleScan}
                     disabled={refreshing}
-                    className="px-6 py-3 rounded-xl bg-gold-gradient text-black font-bold
+                    className="flex-1 sm:flex-initial px-4 sm:px-6 py-2 sm:py-3 text-sm rounded-xl bg-gold-gradient text-black font-bold
                              shadow-lg gold-glow disabled:opacity-50 disabled:cursor-not-allowed
-                             flex items-center gap-2"
+                             flex items-center justify-center gap-2 whitespace-nowrap"
                   >
                     {refreshing ? (
                       <>
-                        <Loader2 className="w-5 h-5 animate-spin" />
-                        {scanProgress || 'Scanning...'}
+                        <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" />
+                        <span className="hidden sm:inline">{scanProgress || 'Scanning...'}</span>
                       </>
                     ) : (
                       <>
-                        <RefreshCw className="w-5 h-5" />
-                        Full Rescan
+                        <RefreshCw className="w-4 h-4 sm:w-5 sm:h-5" />
+                        <span className="hidden sm:inline">Full Rescan</span>
+                        <span className="sm:hidden">Scan</span>
                       </>
                     )}
                   </motion.button>
@@ -333,7 +334,7 @@ export default function Dashboard() {
 
         {!loading && filteredPicks.length > 0 && (
           <AnimatePresence mode="popLayout">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4">
               {filteredPicks.map((pick, index) => (
                 <PickCard 
                   key={pick.id || index} 
@@ -383,18 +384,18 @@ export default function Dashboard() {
                   whileTap={{ scale: 0.95 }}
                   onClick={handleScan}
                   disabled={refreshing}
-                  className="px-8 py-4 rounded-xl bg-gold-gradient text-black font-bold text-lg
-                           shadow-lg gold-glow disabled:opacity-50 flex items-center gap-3 mx-auto"
+                  className="px-6 sm:px-8 py-3 sm:py-4 rounded-xl bg-gold-gradient text-black font-bold text-base sm:text-lg
+                           shadow-lg gold-glow disabled:opacity-50 flex items-center gap-2 sm:gap-3 mx-auto"
                 >
                   {refreshing ? (
                     <>
-                      <Loader2 className="w-6 h-6 animate-spin" />
-                      Scanning...
+                      <Loader2 className="w-5 h-5 sm:w-6 sm:h-6 animate-spin" />
+                      <span className="text-sm sm:text-base">Scanning...</span>
                     </>
                   ) : (
                     <>
-                      <RefreshCw className="w-6 h-6" />
-                      Start First Scan
+                      <RefreshCw className="w-5 h-5 sm:w-6 sm:h-6" />
+                      <span className="text-sm sm:text-base">Start First Scan</span>
                     </>
                   )}
                 </motion.button>
