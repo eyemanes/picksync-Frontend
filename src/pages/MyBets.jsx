@@ -23,11 +23,15 @@ export default function MyBets() {
       });
       const data = await res.json();
       
-      if (data.success) {
+      if (data.success && Array.isArray(data.picks)) {
         setPicks(data.picks);
+      } else {
+        console.warn('Invalid picks data:', data);
+        setPicks([]); // Safety: always set to empty array if invalid
       }
     } catch (err) {
       console.error('Failed to fetch my bets:', err);
+      setPicks([]); // Safety: set to empty array on error
     } finally {
       setLoading(false);
     }
